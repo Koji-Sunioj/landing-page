@@ -2,8 +2,11 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
 import { Link } from "react-router-dom";
+
+import { skills, experiences } from "../utils/data.js";
 
 const HomePage = () => {
   const imgStyle = {
@@ -14,189 +17,34 @@ const HomePage = () => {
     display: "block",
   };
 
-  //   needs to have:
-
-  // * about me
-  // * career experiences
-  // skills
-  // education certifications
-  // social links
-  // contact
-  // portfolio link
-
-  const data = [
-    {
-      location: "Jerusalem, Israel",
-      date: "2006",
-      name: "IDT Global",
-      title: "Billing Associate",
-      description:
-        "Resolving billing issues for clients regarding their internet service. \
-            Up-selling service packages, offers to customers. \
-            Providing the best service for client experiences.",
-    },
-    {
-      location: "Jerusalem, Israel",
-      date: "2007",
-      name: "Lion Data Processing",
-      title: "Data Entry Clerk",
-      description:
-        "Posting of real estate sales on state and national listing services. \
-              Follow up of client inquiries and concerns regarding details of property. \
-              Tailoring the property listing to maximize attraction of potential buyers.",
-    },
-    {
-      location: "Jerusalem, Israel",
-      date: "2008-2009",
-      name: "FXCM",
-      title: "Operation's Associate",
-      description:
-        "Auditing and authorizing applications of foreign exchange trading accounts. \
-              Processing deposits, withdrawals and funds transfers for clients. \
-              Sustaining relations between traders, account brokers and salespeople.",
-    },
-    {
-      location: "Springfield MO, USA",
-      date: "2010",
-      name: "Greene County Assessor",
-      title: "Data Entry Clerk",
-      description:
-        "Scanning tax assessments for funds allocation to proper taxing districts. \
-              Appraising value of Greene County residents' property (i.e. cars, livestock). \
-              Categorizing collected mail for preparation of data entry.",
-    },
-
-    {
-      location: "Springfield MO, USA",
-      date: "2010-2011",
-      name: "O'reilly Auto Parts",
-      title: "Special Order Clerk",
-      description:
-        "Expediting and guiding shipments of automotive products to store. \
-              Completing stock requests for customers inquiring on specialty items. \
-              Maintaining vendor rapport between client and manufacturer.",
-    },
-    {
-      location: "Lafayette IN, USA",
-      date: "2012",
-      name: "Alorica",
-      title: "Universal Agent",
-      description:
-        "Completing installation orders for new customers. \
-              Fixing bill or general account related issues. \
-              Updating customers on most current products and promotions available.",
-    },
-    {
-      location: "Jerusalem, Israel",
-      date: "2013-2015",
-      name: "Bible Lands Jerusalem",
-      title: "Front Desk Associate",
-      description:
-        "Meeting, greeting and explaining features of museum to customers. \
-              Completion of membership, tickets, and event purchases. \
-              Coordination of group visits, guided tours and planning. ",
-    },
-    {
-      location: "Jerusalem, Israel",
-      date: "2014-2016",
-      name: "Da'at Educational Expeditions",
-      title: "Customer Service Center Supervisor",
-      description:
-        "Supervising and delegating inquiries among peers. \
-         Registering, customizing, and completing reservations for \
-         tour packages to Israel and Europe. Processing Travel Documents,\
-         E-tickets and account invoices to secure client bookings",
-    },
-    {
-      location: "Helsinki, Finland",
-      date: "2017-2018",
-      name: "Fafa's",
-      title: "Cook",
-      description:
-        "Serving customers. \
-        Cleaning dining environment. \
-        Preparing food",
-    },
-    {
-      location: "Vantaa, Finland",
-      date: "2018-2022",
-      name: "Ikea",
-      title: "Logistic's Co-Worker",
-      description:
-        "Collecting items for online Ikea orders. \
-      Handling outbound shipments of client orders. \
-      Multi-cultural communications and team work emphasis",
-    },
-    {
-      location: "Helsinki, Finland",
-      date: "2022",
-      name: "Integrify",
-      title: "Full Stack Developer Trainee",
-      description:
-        "Developing front end apps with React.js, HTML, CSS. \
-        Creating back end application via Node.js, Express. \
-        Schema design and database administration with MongoDB.",
-    },
-    {
-      location: "Helsinki, Finland",
-      date: "2022-2023",
-      name: "Nordcloud",
-      title: "Junior Software Developer",
-      description:
-        "Training with AWS development, such as AWS CDK and Amplify. \
-        Learning to provision resources for front end, such as S3, Cognito. \
-        Combining REST API with AWS Lambda, Api Gateway, provisioned NoSQL and SQL services",
-    },
-  ];
-
   return (
     <Container>
-      <Row>
+      <Row className="mb-2">
         <Col>
           <h1>Hello there</h1>
           <p>
-            My name is Koji Inoue, a Software Developer with many interests,
+            My name is Koji Inoue, a Software Developer with many interests and
             skills to offer you and your organization. Scroll down for more
             information.
           </p>
         </Col>
       </Row>
-      <Row>
-        <Col md={4} className="mb-3">
-          <Card>
-            <Card.Img variant="top" src="cs.png" style={imgStyle} />
-            <Card.Body>
-              <Card.Title>Client Oriented</Card.Title>
-              <Card.Text>
-                Having just over ten years of experience in client facing
-                positions. From serving in a{" "}
-                <Link to="https://daattravel.com/">
-                  well-established Israeli tour company
-                </Link>{" "}
-                to a{" "}
-                <Link to="https://www.oreillyauto.com/">
-                  nationally recognized auto parts retailer in the United States
-                </Link>{" "}
-                - I enjoy providing great service and following through with
-                requests until resolved (and beyond).
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
+      <Row className="mb-2">
+        <h2>I am a...</h2>
         <Col md={4} className="mb-3">
           <Card>
             <Card.Img variant="top" src="dev.png" style={imgStyle} />
             <Card.Body>
               <Card.Title>Website Developer</Card.Title>
               <Card.Text>
-                Achieved a certification in{" "}
+                Achieving a certification in{" "}
                 <Link to="https://www.integrify.io/">
                   Full Stack Web Development
-                </Link>{" "}
+                </Link>
                 , I enjoy creating web applications using modern front end
-                frameworks such as React.js, and back end servers using Python
-                or Node.js. My visual style is simple and sleek, with a good
-                understanding of CSS and HTML.
+                frameworks such as React.js, and back end using Python or
+                Node.js - powered by the cloud. My style is simple and sleek,
+                with a good understanding of CSS and HTML.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -211,7 +59,7 @@ const HomePage = () => {
                 <Link to="https://aws.amazon.com/certification/certified-cloud-practitioner/">
                   AWS Cloud Practitioner
                 </Link>{" "}
-                certification, laying the foundation to learn deploying
+                certification, laying the foundation for learning to deploy
                 infrastructure via code. Incorporating AWS resources like
                 Cognito, Api Gateway, S3, Lambda and provisioned SQL or NoSQL
                 databases with full stack apps is my current passion.
@@ -219,24 +67,116 @@ const HomePage = () => {
             </Card.Body>
           </Card>
         </Col>
+        <Col md={4} className="mb-3">
+          <Card>
+            <Card.Img variant="top" src="cs.png" style={imgStyle} />
+            <Card.Body>
+              <Card.Title>Client Advocate</Card.Title>
+              <Card.Text>
+                Having just over ten years of experience in client facing
+                positions. From serving in a{" "}
+                <Link to="https://daattravel.com/">
+                  well-established Israeli tour company
+                </Link>{" "}
+                to a{" "}
+                <Link to="https://www.oreillyauto.com/">
+                  nationally recognized auto parts retailer in the United States
+                </Link>{" "}
+                - my mindsight is client focused in any role, providing great
+                user satisfaction.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
-      <Row>
+      <Row className="mb-2">
+        <Col md={6}>
+          <h2>Skills</h2>
+          <Card>
+            <Card.Body>
+              {skills.map((skill) => (
+                <Button
+                  variant={skill.type}
+                  size="md"
+                  key={skill.value}
+                  style={{
+                    pointerEvents: "none",
+                    margin: "2px",
+                  }}
+                >
+                  {skill.value}
+                </Button>
+              ))}
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={6}>
+          <h2>Education and certifications</h2>
+          <Card>
+            <Card.Body>
+              <Card.Title>Integrify Full Stack Development Academy</Card.Title>
+              <Card.Subtitle className="text-muted">
+                April 2022 - August 2022
+              </Card.Subtitle>
+              <Card.Text>
+                An intensive course teaching full stack web development with
+                React.js, Typescript, MonogoDB and Node.js. The course also
+                covered AWS Cloud Practicioner topics.
+              </Card.Text>
+            </Card.Body>
+            <Card.Body>
+              <Card.Title>Amazon Cloud Practicioner</Card.Title>
+              <Card.Subtitle className="text-muted">
+                September 2022
+              </Card.Subtitle>
+              <Card.Text>
+                Official certification demonstrating knowledge of AWS Services,
+                cloud computing, and terminology related to cloud
+                infrastructure.
+              </Card.Text>
+            </Card.Body>
+            <Card.Body>
+              <Card.Title>
+                Haaga-Helia University of Applied Sciences
+              </Card.Title>
+              <Card.Subtitle className="text-muted">
+                January 2017 - November 2020
+              </Card.Subtitle>
+              <Card.Text>
+                Degree in Information Technology, including subjects such as
+                User Experience, Database Development, Front End Development and
+                Business Intelligence.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="mb-2">
         <h2 className="mb-3">Work History</h2>
         <Col>
-          <ul className="timeline">
-            {data.reverse().map((item) => {
-              return (
-                <li className="timeline-item mb-5">
-                  <h5 className="fw-bold">{item.name}</h5>
-                  <p className="fw-bold mb-2">{item.location}</p>
-                  <p className="text-muted mb-2 fw-bold">
-                    {item.date}: {item.title}
-                  </p>
-                  <p>{item.description}</p>
-                </li>
-              );
-            })}
-          </ul>
+          <Card>
+            <Card.Body>
+              <ul className="timeline">
+                {experiences.reverse().map((item, n) => {
+                  const { name, location, title, date, description } = item;
+                  const liClass =
+                    n + 1 === experiences.length
+                      ? "timeline-item mb-2"
+                      : "timeline-item mb-5";
+                  return (
+                    <li className={liClass} key={n}>
+                      <h5 className="fw-bold">{name}</h5>
+                      <p className="fw-bold mb-2">{location}</p>
+                      <p className="text-muted mb-2 fw-bold">
+                        {date}: {title}
+                      </p>
+                      <p>{description}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>
