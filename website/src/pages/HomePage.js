@@ -14,6 +14,16 @@ const HomePage = () => {
     display: "block",
   };
 
+  //   needs to have:
+
+  // * about me
+  // * career experiences
+  // skills
+  // education certifications
+  // social links
+  // contact
+  // portfolio link
+
   const data = [
     {
       location: "Jerusalem, Israel",
@@ -67,7 +77,7 @@ const HomePage = () => {
               Maintaining vendor rapport between client and manufacturer.",
     },
     {
-      location: "Jerusalem, Israel",
+      location: "Lafayette IN, USA",
       date: "2012",
       name: "Alorica",
       title: "Universal Agent",
@@ -152,12 +162,11 @@ const HomePage = () => {
         </Col>
       </Row>
       <Row>
-        <h2 className="mb-3">Skills</h2>
         <Col md={4} className="mb-3">
           <Card>
             <Card.Img variant="top" src="cs.png" style={imgStyle} />
             <Card.Body>
-              <Card.Title>Customer Service</Card.Title>
+              <Card.Title>Client Oriented</Card.Title>
               <Card.Text>
                 Having just over ten years of experience in client facing
                 positions. From serving in a{" "}
@@ -178,20 +187,16 @@ const HomePage = () => {
           <Card>
             <Card.Img variant="top" src="dev.png" style={imgStyle} />
             <Card.Body>
-              <Card.Title>Website Development</Card.Title>
+              <Card.Title>Website Developer</Card.Title>
               <Card.Text>
-                Achieved a certification in both{" "}
+                Achieved a certification in{" "}
                 <Link to="https://www.integrify.io/">
                   Full Stack Web Development
                 </Link>{" "}
-                and{" "}
-                <Link to="https://aws.amazon.com/certification/certified-cloud-practitioner/">
-                  AWS Cloud Practitioner
-                </Link>
-                . I enjoy creating web applications using modern front end
-                frameworks such as React.js, and back end using Python or
-                Node.js with services like Cognito, Api Gateway provisioned by
-                AWS.
+                , I enjoy creating web applications using modern front end
+                frameworks such as React.js, and back end servers using Python
+                or Node.js. My visual style is simple and sleek, with a good
+                understanding of CSS and HTML.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -200,16 +205,16 @@ const HomePage = () => {
           <Card>
             <Card.Img variant="top" src="db.png" style={imgStyle} />
             <Card.Body>
-              <Card.Title>Analytics and Databases</Card.Title>
+              <Card.Title>Cloud Enthusiast</Card.Title>
               <Card.Text>
-                Acquiring skills in Business Intelligence and SQL Development
-                from{" "}
-                <Link to="https://www.haaga-helia.fi/en/degree-programme-business-information-technology">
-                  Haaga-Helia UAS
+                Acquired the{" "}
+                <Link to="https://aws.amazon.com/certification/certified-cloud-practitioner/">
+                  AWS Cloud Practitioner
                 </Link>{" "}
-                - I like crunching data using Python libraries such as Numpy or
-                Pandas and developing schemas for database engines such as
-                Microsoft SQL, Postgres, MySQL and NoSQL (DynamoDB, MonogDB).
+                certification, laying the foundation to learn deploying
+                infrastructure via code. Incorporating AWS resources like
+                Cognito, Api Gateway, S3, Lambda and provisioned SQL or NoSQL
+                databases with full stack apps is my current passion.
               </Card.Text>
             </Card.Body>
           </Card>
