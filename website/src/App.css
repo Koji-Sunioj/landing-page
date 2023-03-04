@@ -24,3 +24,8 @@
   width: 11px;
   content: "";
 }
+
+body {
+  overflow-y: scroll; 
+ 
+}
