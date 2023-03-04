@@ -1,16 +1,8 @@
-import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 
-import {
-  skills,
-  experiences,
-  summaries,
-  education,
-  skillsPointer,
-} from "../utils/data.js";
+import { skills, summaries, skillsPointer } from "../utils/data.js";
 
 const HomePage = () => {
   const imgStyle = {

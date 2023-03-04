@@ -6,6 +6,31 @@ export const skillsPointer = {
   success: "team building and communications",
 };
 
+export const portfolio = [
+  {
+    url: "https://magnificent-mochi-99378f.netlify.app/",
+    github: "https://github.com/Koji-Sunioj/fs10-frontend-public",
+    image: "commerce.png",
+    title: "E-commerce app",
+    description:
+      "My first front end project with Integrify Oy, learning the conventions of " +
+      "combining React.js, Typescript and Redux with Api calls. The project required that several " +
+      "features be implemented, such as searching through the data, paginating, changing the color theme " +
+      "mobile friendly viewing and a toolbar",
+  },
+  {
+    url: "https://d1yh66sadgwb8n.cloudfront.net/",
+    github: "https://github.com/Koji-Sunioj/cdk-workshop",
+    image: "albums.png",
+    title: "Photo albums website",
+    description:
+      "Something I whipped up while learning full stack development with cloud " +
+      "at Nordcloud. Uses deployment of a React build to a Cloudfront " +
+      "Distribution, Api calls through Api Gateway, Lambda, DynamoDB for " +
+      "CRUD actions, Cognito authentication and S3 to create photo albums. The resources were provisioned with AWS CDK",
+  },
+];
+
 export const education = [
   {
     place: "Integrify Full Stack Development Academy",
