@@ -70,7 +70,8 @@ export class IronpondStack extends cdk.Stack {
     );
 
     //.4 create a https pointer to the cloudfront distribution
-    new aws_route53.AaaaRecord(this, "website-arecord", {
+    new aws_route53.ARecord(this, "website-record", {
+      ttl: cdk.Duration.minutes(1),
       zone: hostedZone,
       target: aws_route53.RecordTarget.fromAlias(
         new targets.CloudFrontTarget(distribution)
