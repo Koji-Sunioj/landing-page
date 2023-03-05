@@ -53,7 +53,7 @@ const Resume = () => (
         <Card>
           <Card.Body>
             <ul className="timeline">
-              {experiences.reverse().map((item, n) => {
+              {experiences.map((item, n) => {
                 const { name, location, title, date, description } = item;
                 const liClass =
                   n + 1 === experiences.length

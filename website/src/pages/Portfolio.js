@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 const Portfolio = () => {
   return (
     <>
-      <Row>
+      <Row className="mb-2">
         <h2>My currently hosted apps:</h2>
         {portfolio.map((item) => {
           const { url, github, title, image, description } = item;
           return (
-            <Col lg={6}>
+            <Col lg={6} className="mb-3">
               <Card>
                 <Card.Body>
                   <Link to={url}>
@@ -35,10 +35,10 @@ const Portfolio = () => {
         })}
       </Row>
       <Row>
-        <h2>
+        <h3>
           My full repository can be accessed{" "}
           <Link to={"https://github.com/Koji-Sunioj/"}>here</Link>{" "}
-        </h2>
+        </h3>
       </Row>
     </>
   );

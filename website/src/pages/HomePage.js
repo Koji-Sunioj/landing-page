@@ -13,17 +13,15 @@ const HomePage = () => {
     display: "block",
   };
 
-  const skillSums = ["primary", "info", "warning", "danger", "success"].map(
-    (label) => {
-      const sum = skills
-        .filter((skill) => skill.type === label)
-        .reduce((n) => {
-          return n + 1;
-        }, 0);
+  const skillSums = ["primary", "info", "warning", "danger"].map((label) => {
+    const sum = skills
+      .filter((skill) => skill.type === label)
+      .reduce((n) => {
+        return n + 1;
+      }, 0);
 
-      return { type: skillsPointer[label], total: sum };
-    }
-  );
+    return { type: skillsPointer[label], total: sum };
+  });
 
   return (
     <>
@@ -63,6 +61,9 @@ const HomePage = () => {
             <strong>{sum.total}</strong> {sum.type}
           </p>
         ))}
+        <p>
+          and many other interpersonal, client facing or team building skills!
+        </p>
       </Row>
     </>
   );

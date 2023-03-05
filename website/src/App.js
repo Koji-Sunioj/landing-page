@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import Portfolio from "./pages/Portfolio";
 import Resume from "./pages/Resume";
+import About from "./pages/About";
 import Container from "react-bootstrap/Container";
 
 import "./App.css";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/resume" element={<Resume />}></Route>
           <Route path="/portfolio" element={<Portfolio />}></Route>
+          <Route path="/about" element={<About />}></Route>
         </Routes>
       </Container>
     </BrowserRouter>
