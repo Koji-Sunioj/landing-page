@@ -3,12 +3,17 @@ import { Construct } from "constructs";
 import * as path from "path";
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+
+import * as aws_route53 from "aws-cdk-lib/aws-route53";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as cm from "aws-cdk-lib/aws-certificatemanager";
 import * as deployment from "aws-cdk-lib/aws-s3-deployment";
 import * as origin from "aws-cdk-lib/aws-cloudfront-origins";
-import * as aws_route53 from "aws-cdk-lib/aws-route53";
-import * as cm from "aws-cdk-lib/aws-certificatemanager";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
+import * as event from "aws-cdk-lib/aws-events";
+import * as eventTarget from "aws-cdk-lib/aws-events-targets";
+import { Duration } from "aws-cdk-lib";
 
 export class IronpondStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -41,6 +46,16 @@ export class IronpondStack extends cdk.Stack {
       accessControl: s3.BucketAccessControl.PRIVATE,
     });
 
+    const logBucket = new s3.Bucket(this, "LogBucket", {
+      accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+      publicReadAccess: false,
+      lifecycleRules: [
+        {
+          expiration: cdk.Duration.days(3),
+        },
+      ],
+    });
+
     //.2 grant bucket read access to the distribution
     const originAccessIdentity = new cloudfront.OriginAccessIdentity(
       this,
@@ -53,6 +68,8 @@ export class IronpondStack extends cdk.Stack {
       this,
       "LandingDistribution",
       {
+        logBucket: logBucket,
+        enableLogging: true,
         domainNames: [domainName],
         certificate: certificate,
         defaultRootObject: "index.html",
