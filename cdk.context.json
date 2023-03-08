@@ -1,10 +1,6 @@
 {
-  "hosted-zone:account=531997442459:domainName=ironpond.net:region=eu-north-1": {
-    "Id": "/hostedzone/Z00435911J9RAIT6JDTVH",
-    "Name": "ironpond.net."
-  },
   "hosted-zone:account=531997442459:domainName=ironpond.net:region=us-east-1": {
-    "Id": "/hostedzone/Z00435911J9RAIT6JDTVH",
+    "Id": "/hostedzone/Z06380132RLBS430KZ93O",
     "Name": "ironpond.net."
   }
 }
