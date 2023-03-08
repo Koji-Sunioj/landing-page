@@ -13,9 +13,9 @@ import * as targets from "aws-cdk-lib/aws-route53-targets";
 import * as lambda_event from "aws-cdk-lib/aws-lambda-event-sources";
 import * as ddb from "aws-cdk-lib/aws-dynamodb";
 
-// import * as event from "aws-cdk-lib/aws-events";
-// import * as eventTarget from "aws-cdk-lib/aws-events-targets";
-// import { Duration } from "aws-cdk-lib";
+import * as event from "aws-cdk-lib/aws-events";
+import * as eventTarget from "aws-cdk-lib/aws-events-targets";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 export class IronpondStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -76,7 +76,36 @@ export class IronpondStack extends cdk.Stack {
       environment: { QUERY_TABLE: table.tableName },
     });
 
-    logBucket.grantRead(s3Trigger);
+    const queryFn = new lambda.Function(this, "QueryLambda", {
+      runtime: lambda.Runtime.PYTHON_3_8,
+      code: lambda.Code.fromAsset("lambda"),
+      handler: "query.handler",
+      environment: { BUCKET: logBucket.bucketName },
+    });
+
+    queryFn.role?.attachInlinePolicy(
+      new iam.Policy(this, "userpool-policy", {
+        statements: [
+          new iam.PolicyStatement({
+            actions: [
+              "athena:RunQuery",
+              "athena:StartQueryExecution",
+              "athena:GetNamedQuery",
+            ],
+            resources: ["*"],
+          }),
+        ],
+      })
+    );
+
+    new event.Rule(this, "my-lambda-rule", {
+      description: "Description of the rule",
+      targets: [new eventTarget.LambdaFunction(queryFn)],
+      schedule: event.Schedule.cron({ minute: "0", hour: "1" }),
+    });
+
+    logBucket.grantReadWrite(queryFn);
+    logBucket.grantReadWrite(s3Trigger);
     table.grantWriteData(s3Trigger);
 
     const s3PutEventSource = new lambda_event.S3EventSource(logBucket, {
