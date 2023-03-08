@@ -4,16 +4,18 @@ import * as path from "path";
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as lambda from "aws-cdk-lib/aws-lambda";
-
 import * as aws_route53 from "aws-cdk-lib/aws-route53";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as cm from "aws-cdk-lib/aws-certificatemanager";
 import * as deployment from "aws-cdk-lib/aws-s3-deployment";
 import * as origin from "aws-cdk-lib/aws-cloudfront-origins";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
-import * as event from "aws-cdk-lib/aws-events";
-import * as eventTarget from "aws-cdk-lib/aws-events-targets";
-import { Duration } from "aws-cdk-lib";
+import * as lambda_event from "aws-cdk-lib/aws-lambda-event-sources";
+import * as ddb from "aws-cdk-lib/aws-dynamodb";
+
+// import * as event from "aws-cdk-lib/aws-events";
+// import * as eventTarget from "aws-cdk-lib/aws-events-targets";
+// import { Duration } from "aws-cdk-lib";
 
 export class IronpondStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -46,6 +48,11 @@ export class IronpondStack extends cdk.Stack {
       accessControl: s3.BucketAccessControl.PRIVATE,
     });
 
+    const table = new ddb.Table(this, "MetricsTable", {
+      partitionKey: { name: "query_id", type: ddb.AttributeType.STRING },
+      sortKey: { name: "date", type: ddb.AttributeType.NUMBER },
+    });
+
     const logBucket = new s3.Bucket(this, "LogBucket", {
       accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
       publicReadAccess: false,
@@ -55,6 +62,28 @@ export class IronpondStack extends cdk.Stack {
         },
       ],
     });
+
+    const pandasLayer = new lambda.LayerVersion(this, "PandasLayer", {
+      code: lambda.Code.fromAsset("layer"),
+      compatibleRuntimes: [lambda.Runtime.PYTHON_3_8],
+    });
+
+    const s3Trigger = new lambda.Function(this, "TriggerLambda", {
+      runtime: lambda.Runtime.PYTHON_3_8,
+      code: lambda.Code.fromAsset("lambda"),
+      handler: "s3trigger.handler",
+      layers: [pandasLayer],
+      environment: { QUERY_TABLE: table.tableName },
+    });
+
+    logBucket.grantRead(s3Trigger);
+    table.grantWriteData(s3Trigger);
+
+    const s3PutEventSource = new lambda_event.S3EventSource(logBucket, {
+      events: [s3.EventType.OBJECT_CREATED_PUT],
+    });
+
+    s3Trigger.addEventSource(s3PutEventSource);
 
     //.2 grant bucket read access to the distribution
     const originAccessIdentity = new cloudfront.OriginAccessIdentity(
