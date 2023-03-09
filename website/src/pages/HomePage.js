@@ -3,6 +3,7 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 
 import { skills, summaries, skillsPointer } from "../utils/data.js";
+import apiUrls from "../utils/apis.json";
 
 const HomePage = () => {
   const imgStyle = {
@@ -12,6 +13,12 @@ const HomePage = () => {
     objectFit: "contain",
     display: "block",
   };
+
+  const metricsApi = Object.keys(apiUrls["IronpondStack"]).filter((endPoint) =>
+    endPoint.includes("Metrics")
+  );
+
+  console.log(apiUrls["IronpondStack"][metricsApi]);
 
   const skillSums = ["primary", "info", "warning", "danger"].map((label) => {
     const sum = skills
@@ -57,7 +64,7 @@ const HomePage = () => {
       <Row className="mb-2">
         <h2>In summary, I have skills in... </h2>
         {skillSums.map((sum) => (
-          <p>
+          <p key={sum.type}>
             <strong>{sum.total}</strong> {sum.type}
           </p>
         ))}

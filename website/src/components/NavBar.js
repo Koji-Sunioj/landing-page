@@ -25,10 +25,10 @@ const NavBar = () => {
               as={Link}
               to="https://www.linkedin.com/in/koji-inoue-14647b56/"
             >
-              <i class="fab fa-linkedin-in"></i>
+              <i className="fab fa-linkedin-in"></i>
             </Nav.Link>
             <Nav.Link as={Link} to="https://github.com/Koji-Sunioj/">
-              <i class="fa-brands fa-github"></i>
+              <i className="fa-brands fa-github"></i>
             </Nav.Link>
             <Nav.Link as={Link} to="/about">
               About

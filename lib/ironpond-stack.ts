@@ -1,4 +1,5 @@
 import { WebSite } from "./website";
+import { MetricsApi } from "./metrics-api";
 import { Construct } from "constructs";
 
 import * as cdk from "aws-cdk-lib";
@@ -19,6 +20,8 @@ export class IronpondStack extends cdk.Stack {
       partitionKey: { name: "query_id", type: ddb.AttributeType.STRING },
       sortKey: { name: "date", type: ddb.AttributeType.NUMBER },
     });
+
+    new MetricsApi(this, "MetricsApi", { metricsTable: table });
 
     //bucket for storing cloudfront logs. expires after 3 days
     const logBucket = new s3.Bucket(this, "LogBucket", {
