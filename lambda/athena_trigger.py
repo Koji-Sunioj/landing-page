@@ -20,9 +20,7 @@ def handler(event, context):
     if "csv" in key and "metadata" not in key:
         # grab the locations from the json file
         locations = pd.read_json(
-            "./utils/locations.json").reset_index().rename(columns={"index": "location"})
-        locations["country"] = [i["country"] for i in locations.nodes]
-        locations = locations.drop(columns=["source", "self", "nodes"])
+            "./utils/edge_iata_iso.json").T.reset_index().rename(columns={"index": "location"})
 
         # grab the csv file saved by athena
         saved_query = s3.get_object(Bucket=bucket, Key=key)

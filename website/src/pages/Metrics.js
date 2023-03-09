@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 
 import Highcharts from "highcharts";
+import HighMaps from "highcharts/highmaps";
 import HighchartsReact from "highcharts-react-official";
+import worldMap from "@highcharts/map-collection/custom/world-lowres.geo.json";
 
 const Metrics = () => {
   const {
@@ -9,26 +11,9 @@ const Metrics = () => {
   } = useSelector((state) => state);
 
   console.log(data);
-  let load, times, options, countries;
+  let load, times, splineOptions, countries, mapOptions;
   data !== null &&
     (() => {
-      countries = {};
-      data
-        .map((metric) => metric.countries)
-        .forEach((list) => {
-          list.forEach((item) => {
-            const { country, requests } = item;
-            if (countries.hasOwnProperty(country)) {
-              countries[item.country] += Number(item.requests);
-            } else {
-              countries[item.country] = 0;
-              countries[item.country] += Number(item.requests);
-            }
-          });
-        });
-
-      console.log(countries);
-
       load = data
         .map((metric) => metric.visits.map((visit) => visit.load))
         .flat(1)
@@ -44,7 +29,7 @@ const Metrics = () => {
         )
         .flat(1)
         .sort();
-      options = {
+      splineOptions = {
         chart: {
           type: "spline",
         },
@@ -66,13 +51,71 @@ const Metrics = () => {
           },
         ],
       };
+
+      countries = {};
+      data
+        .map((metric) => metric.countries)
+        .forEach((list) => {
+          list.forEach((item) => {
+            const { country, requests } = item;
+            const lowerForMap = country.toLowerCase();
+            if (countries.hasOwnProperty(lowerForMap)) {
+              countries[lowerForMap] += Number(requests);
+            } else {
+              countries[lowerForMap] = 0;
+              countries[lowerForMap] += Number(requests);
+            }
+          });
+        });
+      const entries = Object.entries(countries);
+
+      mapOptions = {
+        chart: {
+          map: worldMap,
+        },
+        title: {
+          text: "Website requests per country",
+        },
+        subtitle: {
+          text: "measured by request ids per country",
+        },
+        mapNavigation: {
+          enabled: true,
+          buttonOptions: {
+            alignTo: "spacingBox",
+          },
+        },
+        colorAxis: {
+          min: 0,
+        },
+        series: [
+          {
+            name: "Requests",
+            states: {
+              hover: {
+                color: "#BADA55",
+              },
+            },
+
+            data: entries,
+          },
+        ],
+      };
     })();
 
   return (
     <div>
       <h2>Site Metrics</h2>
       {data !== null && (
-        <HighchartsReact highcharts={Highcharts} options={options} />
+        <>
+          {" "}
+          <HighchartsReact highcharts={Highcharts} options={splineOptions} />
+          <HighchartsReact
+            highcharts={HighMaps}
+            constructorType={"mapChart"}
+            options={mapOptions}
+          />
+        </>
       )}
     </div>
   );
