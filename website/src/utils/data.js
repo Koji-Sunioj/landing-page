@@ -1,3 +1,11 @@
+export const imgStyle = {
+  height: "250px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  objectFit: "contain",
+  display: "block",
+};
+
 export const skillsPointer = {
   primary: "back end and general programming languages",
   info: "databases engines and analytical methods or frameworks",

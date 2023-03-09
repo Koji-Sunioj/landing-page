@@ -14,6 +14,8 @@ def handler(event, context):
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     principal = event["Records"][0]["userIdentity"]["principalId"]
 
+    print(principal)
+
     # checking if athena created a new csv file from query
     if "csv" in key and "metadata" not in key:
         # grab the locations from the json file
@@ -50,20 +52,3 @@ def handler(event, context):
                   "date": int(query_date[0]), "query_id": context.aws_request_id}
         query_table = ddb.Table(os.environ['QUERY_TABLE'])
         query_table.put_item(Item=to_put)
-
-    elif ".gz" in key and "TriggerLambda" not in principal and "datafeeds" in principal:
-        # check if cloudfront made a log file, if so: wipe the client address from it
-        obj = s3.get_object(Bucket=bucket, Key=key)
-        strings = []
-        with gzip.open(obj["Body"], 'r') as fin:
-            content = fin.read().decode("utf-8").split("\n")
-            for con in content:
-                columns = con.split("\t")
-                if len(columns) > 1:
-                    columns[4] = "anon"
-                filtered_line = "\t".join(columns)
-                strings.append(filtered_line)
-
-        fin.close()
-        new_file = gzip.compress(bytes(("\n").join(strings), encoding='utf8'))
-        s3.put_object(Body=new_file, Bucket=bucket, Key=key)

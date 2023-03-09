@@ -6,6 +6,8 @@ import Card from "react-bootstrap/Card";
 
 import { Link } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 const Portfolio = () => {
   return (
     <>
@@ -14,7 +16,7 @@ const Portfolio = () => {
         {portfolio.map((item) => {
           const { url, github, title, image, description } = item;
           return (
-            <Col lg={6} className="mb-3">
+            <Col lg={6} className="mb-3" key={title}>
               <Card>
                 <Card.Body>
                   <Link to={url}>

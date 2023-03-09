@@ -2,24 +2,9 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 
-import { skills, summaries, skillsPointer } from "../utils/data.js";
-import apiUrls from "../utils/apis.json";
+import { skills, summaries, skillsPointer, imgStyle } from "../utils/data.js";
 
 const HomePage = () => {
-  const imgStyle = {
-    height: "250px",
-    marginLeft: "auto",
-    marginRight: "auto",
-    objectFit: "contain",
-    display: "block",
-  };
-
-  const metricsApi = Object.keys(apiUrls["IronpondStack"]).filter((endPoint) =>
-    endPoint.includes("Metrics")
-  );
-
-  console.log(apiUrls["IronpondStack"][metricsApi]);
-
   const skillSums = ["primary", "info", "warning", "danger"].map((label) => {
     const sum = skills
       .filter((skill) => skill.type === label)
