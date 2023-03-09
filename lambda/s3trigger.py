@@ -14,6 +14,7 @@ def handler(event, context):
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     principal = event["Records"][0]["userIdentity"]["principalId"]
 
+    # checking if athena created a new csv file from query
     if "csv" in key and "metadata" not in key:
         # grab the locations from the json file
         locations = pd.read_json(
@@ -25,9 +26,7 @@ def handler(event, context):
         saved_query = s3.get_object(Bucket=bucket, Key=key)
         raw_frame = pd.read_csv(saved_query["Body"])
 
-        # 1. get the country code
-        # 2. get the unique date the query is referring to
-        # 3. parse dates to unix, cleana the data from bots
+        # data cleaning of bots and creating unix timestamps
         with_date = raw_frame.set_index(pd.to_datetime(
             raw_frame.visit)).drop(columns="visit")
         query_date = pd.to_datetime(with_date.index.floor(
@@ -53,6 +52,7 @@ def handler(event, context):
         query_table.put_item(Item=to_put)
 
     elif ".gz" in key and "TriggerLambda" not in principal and "datafeeds" in principal:
+        # check if cloudfront made a log file, if so: wipe the client address from it
         obj = s3.get_object(Bucket=bucket, Key=key)
         strings = []
         with gzip.open(obj["Body"], 'r') as fin:

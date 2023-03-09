@@ -4,7 +4,8 @@ import gzip
 client = boto3.client("athena")
 
 
-def lambda_handler(event, context):
+def handler(event, context):
+    print("running execution to store in %s" % (os.environ['BUCKET']))
     response = client.get_named_query(
         NamedQueryId='e0c773dc-edcc-45fe-8809-25d23a922fcd'
     )
