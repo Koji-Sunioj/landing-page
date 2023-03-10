@@ -10,9 +10,24 @@ def handler(event, context):
     print(event)
     try:
         metrics_table = dynamodb.Table(os.environ['QUERY_TABLE'])
-        metrics = metrics_table.scan()
+        metrics = metrics_table.scan(
+            ProjectionExpression="query_id,query_date,server_load,countries"
+        )
+        countries = {}
+        for date_array in metrics["Items"]:
+            for country in date_array["countries"]:
+                if country["country"] in countries:
+                    countries[country["country"]] += country["load"]
+                else:
+                    countries[country["country"]] = country["load"]
+
+        new_metrics = [{k: metric[k] for k in set(
+            list(metric.keys())) - set(["countries"])} for metric in metrics["Items"]]
+
+        print(new_metrics)
+
         response["body"] = json.dumps(
-            {"metrics": metrics["Items"]}, default=serialize_int)
+            {"metrics": new_metrics, "countries": countries}, default=serialize_int)
 
     except Exception as error:
         response["statusCode"] = 400

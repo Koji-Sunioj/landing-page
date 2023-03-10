@@ -18,7 +18,7 @@ export class IronpondStack extends cdk.Stack {
     //table for site metrics
     const table = new ddb.Table(this, "MetricsTable", {
       partitionKey: { name: "query_id", type: ddb.AttributeType.STRING },
-      sortKey: { name: "date", type: ddb.AttributeType.NUMBER },
+      sortKey: { name: "query_date", type: ddb.AttributeType.NUMBER },
     });
 
     new MetricsApi(this, "MetricsApi", { metricsTable: table });

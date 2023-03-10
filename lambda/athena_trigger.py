@@ -41,12 +41,12 @@ def handler(event, context):
         visits = without_bot.groupby(without_bot.index).aggregate({"load": "mean"}).reset_index(
         ).round(0).astype({"load": "int"}).rename(columns={"visit": "time"}).to_dict("records")
         with_countries = pd.merge(without_bot, locations, on="location", how="left").drop(
-            columns=["user_agent", "location", "load"])
+            columns=["user_agent", "location"])
         countries = with_countries.groupby("country").aggregate(
-            {"requests": "sum"}).reset_index().to_dict("records")
+            {"load": "sum"}).reset_index().to_dict("records")
 
         # store in ddb
-        to_put = {"visits": visits, "countries": countries,
-                  "date": int(query_date[0]), "query_id": context.aws_request_id}
+        to_put = {"visits": visits, "countries": countries, "server_load": without_bot.load.sum().item(),
+                  "query_date": int(query_date[0]), "query_id": context.aws_request_id}
         query_table = ddb.Table(os.environ['QUERY_TABLE'])
         query_table.put_item(Item=to_put)

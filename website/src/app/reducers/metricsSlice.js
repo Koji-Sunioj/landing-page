@@ -32,7 +32,7 @@ export const metricsSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchMetrics.fulfilled, (state, action) => {
-        state.data = action.payload.metrics;
+        state.data = action.payload;
         state.loading = false;
       })
       .addCase(fetchMetrics.rejected, (state, action) => {
