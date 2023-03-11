@@ -17,10 +17,10 @@ export const highMapsOptions = (countries) => {
       map: worldMap,
     },
     title: {
-      text: "Website traffic per country between",
+      text: "Website traffic per country",
     },
     subtitle: {
-      text: "measured by sum of megabytes grouped by date",
+      text: "measured by sum of megabytes per AWS Edgepoint access to website",
     },
     mapNavigation: {
       enabled: true,
@@ -73,7 +73,7 @@ export const highChartsOptions = (metrics) => {
       text: "Website requests in megabytes of over time",
     },
     subtitle: {
-      text: "measured by sum of megabytes grouped by date",
+      text: "measured by sum of megabytes grouped by date, to all websites URIs",
     },
     xAxis: [
       {

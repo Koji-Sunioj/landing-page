@@ -2,8 +2,13 @@ import Navbar from "react-bootstrap/Navbar";
 import { Container, Nav } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
+  const {
+    metrics: { data },
+  } = useSelector((state) => state);
+
   return (
     <Navbar bg="dark" expand="lg" variant="dark" className="mb-3">
       <Container>
@@ -33,9 +38,11 @@ const NavBar = () => {
             <Nav.Link as={Link} to="/about">
               About
             </Nav.Link>
-            <Nav.Link as={Link} to="/metrics">
-              Site Metrics
-            </Nav.Link>
+            {data !== null && (
+              <Nav.Link as={Link} to="/metrics">
+                Site Metrics
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

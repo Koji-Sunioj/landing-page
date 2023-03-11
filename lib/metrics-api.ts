@@ -3,9 +3,11 @@ import { Construct } from "constructs";
 import * as ddb from "aws-cdk-lib/aws-dynamodb";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as api from "aws-cdk-lib/aws-apigateway";
+import * as cm from "aws-cdk-lib/aws-certificatemanager";
 
 export interface MetricsApiProps {
   metricsTable: ddb.Table;
+  certificate: cm.Certificate;
 }
 
 export class MetricsApi extends Construct {
@@ -25,12 +27,20 @@ export class MetricsApi extends Construct {
       endpointExportName: "MetricsApi",
       handler: metricsLambda,
       proxy: false,
-      defaultCorsPreflightOptions: {
-        allowOrigins: api.Cors.ALL_ORIGINS,
-      },
     });
 
+    //make sure api requests have origin headers, to make sure request is from a browser
+    const apiValidation = new api.LambdaIntegration(metricsLambda);
+
     const metrics = metricsEndpoint.root.addResource("metrics");
-    metrics.addMethod("GET");
+    metrics.addMethod("GET", apiValidation, {
+      requestParameters: {
+        "method.request.header.origin": true,
+      },
+      requestValidatorOptions: {
+        requestValidatorName: "metric-validator",
+        validateRequestParameters: true,
+      },
+    });
   }
 }

@@ -21,8 +21,6 @@ export class IronpondStack extends cdk.Stack {
       sortKey: { name: "query_date", type: ddb.AttributeType.NUMBER },
     });
 
-    new MetricsApi(this, "MetricsApi", { metricsTable: table });
-
     //bucket for storing cloudfront logs. expires after 3 days
     const logBucket = new s3.Bucket(this, "LogBucket", {
       accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
@@ -35,8 +33,13 @@ export class IronpondStack extends cdk.Stack {
     });
 
     //instantiate the website class with the logging bucket
-    new WebSite(this, "IronPond", {
+    const website = new WebSite(this, "IronPond", {
       logBucket: logBucket,
+    });
+
+    new MetricsApi(this, "MetricsApi", {
+      metricsTable: table,
+      certificate: website.certificate,
     });
 
     //a lambda layer build from a physical folder to clean the data queried by athena

@@ -15,6 +15,8 @@ export interface WebsiteProps {
 }
 
 export class WebSite extends Construct {
+  public readonly certificate: cm.Certificate;
+
   constructor(scope: Construct, id: string, props: WebsiteProps) {
     super(scope, id);
 
@@ -28,7 +30,7 @@ export class WebSite extends Construct {
     );
 
     //2. create a certifcate with the zone
-    const certificate = new cm.Certificate(this, "CustomDomainCertificate", {
+    this.certificate = new cm.Certificate(this, "CustomDomainCertificate", {
       domainName: domainName,
       validation: cm.CertificateValidation.fromDns(hostedZone),
     });
@@ -53,7 +55,7 @@ export class WebSite extends Construct {
         logBucket: props.logBucket,
         enableLogging: true,
         domainNames: [domainName],
-        certificate: certificate,
+        certificate: this.certificate,
         defaultRootObject: "index.html",
         defaultBehavior: {
           origin: new origin.S3Origin(appBucket, { originAccessIdentity }),
