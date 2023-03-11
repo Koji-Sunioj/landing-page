@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 import * as path from "path";
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as aws_route53 from "aws-cdk-lib/aws-route53";
 import * as cm from "aws-cdk-lib/aws-certificatemanager";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
@@ -47,6 +48,16 @@ export class WebSite extends Construct {
     );
     appBucket.grantRead(originAccessIdentity);
 
+    const edgeDeny = new cloudfront.experimental.EdgeFunction(
+      this,
+      "EdgeDeny",
+      {
+        runtime: lambda.Runtime.PYTHON_3_8,
+        code: lambda.Code.fromAsset("lambda"),
+        handler: "edge.handler",
+      }
+    );
+
     //5. create a distrubtion in cloudfront with certificate, domain, bucket
     const distribution = new cloudfront.Distribution(
       this,
@@ -59,6 +70,12 @@ export class WebSite extends Construct {
         defaultRootObject: "index.html",
         defaultBehavior: {
           origin: new origin.S3Origin(appBucket, { originAccessIdentity }),
+          edgeLambdas: [
+            {
+              functionVersion: edgeDeny.currentVersion,
+              eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
+            },
+          ],
         },
         errorResponses: [
           {

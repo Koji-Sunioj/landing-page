@@ -11,7 +11,7 @@ def handler(event, context):
     print(event)
     try:
         user_agent = event["headers"]["User-Agent"]
-        bot_string = "(?i)curl|python|apache-http|go-http|webtech|-|insomnia"
+        bot_string = "(?i)curl|python|apache-http|go-http|webtech|-|insomnia|java|expanse|zoom"
         is_matched = re.search(bot_string, user_agent)
         if is_matched:
             raise Exception("no bots allowed")
