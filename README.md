@@ -7,7 +7,7 @@ mkdir -p layer/python/lib/python3.8/site-packages/
 pip install --target=layer/python/lib/python3.8/site-packages/ pandas
 ```
 
-currently developing lambda functions to anonymize client requests in cloudfront logs via lambda trigger in s3. backend now includes the ability to create metrics on website load throughout the day and count of countries (through AWS edge locations) athena query is saved in s3. i have not found a reliable way to bootstrap the athena database with glue reliably through the CDK, so for now it is done through console.
+backend now includes the ability to create metrics on website load throughout the day and count of countries (through AWS edge locations) athena query is saved in s3. i have not found a reliable way to bootstrap the athena database with glue reliably through the CDK, so for now it is done through console.
 
 cloudfront logs are now expiring after 3 days.
 
