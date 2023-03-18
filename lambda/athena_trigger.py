@@ -33,7 +33,7 @@ def handler(event, context):
             freq='D').unique()).astype(int) / 10**9
         with_date.index = with_date.index.astype(np.int64) // 10**9
         with_date.location = with_date.location.str[:3].values
-        bot_string = "(?i)curl|python|apache-http|go-http|webtech|-|insomnia|java|expanse|zoom"
+        bot_string = "(?i)curl|python|apache-http|go-http|webtech|-|insomnia|google|msnbot|wget|ioncrawl|java|xpanse|zoom|screaming|crawler"
         without_bot = with_date[with_date['user_agent'].str.contains(
             bot_string) == False]
 

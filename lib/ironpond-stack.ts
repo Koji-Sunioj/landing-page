@@ -21,6 +21,10 @@ export class IronpondStack extends cdk.Stack {
       sortKey: { name: "query_date", type: ddb.AttributeType.NUMBER },
     });
 
+    const countryTable = new ddb.Table(this, "CountryTable", {
+      partitionKey: { name: "updated", type: ddb.AttributeType.NUMBER },
+    });
+
     //bucket for storing cloudfront logs. expires after 3 days
     const logBucket = new s3.Bucket(this, "LogBucket", {
       accessControl: s3.BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
