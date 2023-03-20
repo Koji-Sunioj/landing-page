@@ -14,10 +14,12 @@ def handler(event, context):
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     principal = event["Records"][0]["userIdentity"]["principalId"]
 
-    print(principal)
-
     # checking if athena created a new csv file from query
     if "csv" in key and "metadata" not in key:
+        # initialize tables
+        query_table = ddb.Table(os.environ['QUERY_TABLE'])
+        aggregate_table = ddb.Table(os.environ['COUNTRY_TABLE'])
+
         # grab the locations from the json file
         locations = pd.read_json(
             "./utils/edge_iata_iso.json").T.reset_index().rename(columns={"index": "location"})
@@ -43,10 +45,23 @@ def handler(event, context):
         with_countries = pd.merge(without_bot, locations, on="location", how="left").drop(
             columns=["user_agent", "location"])
         countries = with_countries.groupby("country").aggregate(
-            {"load": "sum"}).reset_index().to_dict("records")
+            {"load": "sum"})  # .reset_index().to_dict("records")
 
-        # store in ddb
-        to_put = {"visits": visits, "countries": countries, "server_load": without_bot.load.sum().item(),
+        to_put = {"visits": visits, "countries": countries.reset_index().to_dict("records"), "server_load": without_bot.load.sum().item(),
                   "query_date": int(query_date[0]), "query_id": context.aws_request_id}
-        query_table = ddb.Table(os.environ['QUERY_TABLE'])
         query_table.put_item(Item=to_put)
+
+        # aggregate old values with new
+        country_aggregate = aggregate_table.get_item(
+            Key={"aggregate": "countries"})
+        old_countries = pd.DataFrame.from_dict(
+            country_aggregate["Item"]["countries"], orient="index", columns=["load"])
+        old_countries["load"] = old_countries.load.values.astype(int)
+        old_countries.index.name = "country"
+        new_frame = pd.concat([old_countries, countries])
+        final_countries = new_frame.groupby(
+            new_frame.index).aggregate({"load": "sum"})
+        added_countries = {"aggregate": "countries",
+                           "countries": final_countries.to_dict()["load"]}
+
+        aggregate_table.put_item(Item=added_countries)

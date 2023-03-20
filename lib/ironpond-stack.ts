@@ -21,8 +21,8 @@ export class IronpondStack extends cdk.Stack {
       sortKey: { name: "query_date", type: ddb.AttributeType.NUMBER },
     });
 
-    const countryTable = new ddb.Table(this, "CountryTable", {
-      partitionKey: { name: "updated", type: ddb.AttributeType.NUMBER },
+    const aggregateTable = new ddb.Table(this, "CountryTable", {
+      partitionKey: { name: "aggregate", type: ddb.AttributeType.STRING },
     });
 
     //bucket for storing cloudfront logs. expires after 3 days
@@ -42,6 +42,7 @@ export class IronpondStack extends cdk.Stack {
     });
 
     new MetricsApi(this, "MetricsApi", {
+      aggregateTable: aggregateTable,
       metricsTable: table,
       certificate: website.certificate,
     });
@@ -59,7 +60,10 @@ export class IronpondStack extends cdk.Stack {
       code: lambda.Code.fromAsset("lambda"),
       handler: "athena_trigger.handler",
       layers: [pandasLayer],
-      environment: { QUERY_TABLE: table.tableName },
+      environment: {
+        QUERY_TABLE: table.tableName,
+        COUNTRY_TABLE: aggregateTable.tableName,
+      },
     });
 
     //run the lambda when files are create in s3
@@ -105,6 +109,7 @@ export class IronpondStack extends cdk.Stack {
     //granting the lambdas permission to write, read from s3 and write to dynamodb
     logBucket.grantReadWrite(queryFn);
     logBucket.grantReadWrite(athenaTrigger);
-    table.grantWriteData(athenaTrigger);
+    table.grantReadWriteData(athenaTrigger);
+    aggregateTable.grantReadWriteData(athenaTrigger);
   }
 }

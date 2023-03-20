@@ -6,6 +6,7 @@ import * as api from "aws-cdk-lib/aws-apigateway";
 import * as cm from "aws-cdk-lib/aws-certificatemanager";
 
 export interface MetricsApiProps {
+  aggregateTable: ddb.Table;
   metricsTable: ddb.Table;
   certificate: cm.Certificate;
 }
@@ -18,10 +19,14 @@ export class MetricsApi extends Construct {
       runtime: lambda.Runtime.PYTHON_3_8,
       code: lambda.Code.fromAsset("lambda"),
       handler: "metrics.handler",
-      environment: { QUERY_TABLE: props.metricsTable.tableName },
+      environment: {
+        QUERY_TABLE: props.metricsTable.tableName,
+        AGGREGATE_TABLE: props.aggregateTable.tableName,
+      },
     });
 
     props.metricsTable.grantReadData(metricsLambda);
+    props.aggregateTable.grantReadData(metricsLambda);
 
     const metricsEndpoint = new api.LambdaRestApi(this, "MetricsApi", {
       endpointExportName: "MetricsApi",
