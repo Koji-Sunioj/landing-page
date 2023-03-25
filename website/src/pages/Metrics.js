@@ -13,7 +13,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 const Metrics = () => {
   const {
-    metrics: { data, loading, error },
+    metrics: { data, loading },
   } = useSelector((state) => state);
 
   let chartOptions, mapOptions;

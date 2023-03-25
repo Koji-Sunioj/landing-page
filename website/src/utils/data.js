@@ -35,7 +35,20 @@ export const portfolio = [
       "Something I whipped up while learning full stack development with cloud " +
       "at Nordcloud. Uses deployment of a React build to a Cloudfront " +
       "Distribution, Api calls through Api Gateway, Lambda, DynamoDB for " +
-      "CRUD actions, Cognito authentication and S3 to create photo albums. The resources were provisioned with AWS CDK",
+      "CRUD actions, Cognito authentication and S3 to create photo albums. The resources were provisioned with AWS CDK. " +
+      "I am currently refactoring it to use Typescript and Redux, then minifying the Lambda function code.",
+  },
+
+  {
+    url: "https://darling-syrniki-58d723.netlify.app/",
+    github: "https://github.com/Koji-Sunioj/fs14-frontend-public",
+    image: "records.png",
+    title: "E-commerce website",
+    description:
+      "A front end assignment I am currently working on, as part of re-joining the Integrify Academy. " +
+      "It's main purpose to implement e-commerce functionalities, " +
+      "such as logging in via Google single sign on, adding items to card and filtering through items. " +
+      "Eventually, it will be supplement with a backend server.",
   },
 ];
 

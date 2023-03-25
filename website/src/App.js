@@ -25,7 +25,7 @@ function App() {
     if (data === null && !loading && !error) {
       dispatch(fetchMetrics());
     }
-  }, [data]);
+  });
 
   return (
     <BrowserRouter>
