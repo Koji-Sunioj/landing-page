@@ -67,7 +67,7 @@ export const highChartsOptions = (metrics) => {
 
   const chartOptions = {
     chart: {
-      type: "column",
+      type: "spline",
     },
     title: {
       text: "Website requests in megabytes of over time",
