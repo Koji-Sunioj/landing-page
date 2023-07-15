@@ -1,7 +1,7 @@
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import Accordion from "react-bootstrap/Accordion";
 
 import { skills, experiences, education } from "../utils/data.js";
 
@@ -12,22 +12,25 @@ const Resume = () => (
         <h2>Skills and interests</h2>
         <Card>
           <Card.Body>
-            {skills.map((skill) => {
-              const { type, value } = skill;
-              return (
-                <Button
-                  variant={type}
-                  size="md"
-                  key={value}
-                  style={{
-                    pointerEvents: "none",
-                    margin: "2px",
-                  }}
-                >
-                  {value}
-                </Button>
-              );
-            })}
+            <Accordion defaultActiveKey="0">
+              {skills.map((skill, index) => {
+                const { title, data, description } = skill;
+                return (
+                  <Accordion.Item eventKey={`${index}`}>
+                    <Accordion.Header>{title}</Accordion.Header>
+                    <Accordion.Body>
+                      <p>{description}</p>
+
+                      <ul>
+                        {data.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                );
+              })}
+            </Accordion>
           </Card.Body>
         </Card>
       </Col>

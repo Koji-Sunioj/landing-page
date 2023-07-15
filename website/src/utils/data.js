@@ -6,14 +6,6 @@ export const imgStyle = {
   display: "block",
 };
 
-export const skillsPointer = {
-  primary: "back end and general programming languages",
-  info: "databases engines and analytical methods or frameworks",
-  warning: "front end scripting languages and frameworks",
-  danger: "cloud and general IT system tools",
-  success: "team building and communications",
-};
-
 export const portfolio = [
   {
     url: "https://magnificent-mochi-99378f.netlify.app/",
@@ -202,62 +194,99 @@ export const experiences = [
 ];
 
 export const skills = [
-  { type: "primary", value: "Node.js" },
-  { type: "primary", value: "Express.js" },
-  { type: "primary", value: "Python" },
-  { type: "primary", value: "Flask" },
-  { type: "primary", value: "Django" },
-  { type: "primary", value: "C#" },
-  { type: "primary", value: ".NET" },
-  { type: "info", value: "Data Analytics" },
-  { type: "info", value: "ETL" },
-  { type: "info", value: "Numpy" },
-  { type: "info", value: "Pandas" },
-  { type: "info", value: "Postgres" },
-  { type: "info", value: "MySQL" },
-  { type: "info", value: "MS SQL" },
-  { type: "info", value: "DynamoDB" },
-  { type: "info", value: "MongoDB" },
-  { type: "warning", value: "React.js" },
-  { type: "warning", value: "Angular.js" },
-  { type: "warning", value: "Jquery" },
-  { type: "warning", value: "Javascript" },
-  { type: "warning", value: "Typescript" },
-  { type: "warning", value: "HTML" },
-  { type: "warning", value: "CSS" },
-  { type: "warning", value: "Bootstrap" },
-  { type: "warning", value: "Tailwind" },
-  { type: "warning", value: "SCSS" },
-  { type: "danger", value: "Linux" },
-  { type: "danger", value: "Git" },
-  { type: "danger", value: "Bash" },
-  { type: "danger", value: "Lambda" },
-  { type: "danger", value: "Cognito" },
-  { type: "danger", value: "S3" },
-  { type: "danger", value: "AWS CDK" },
-  { type: "danger", value: "Api Gateway" },
-  { type: "danger", value: "Cloudfront" },
-  { type: "danger", value: "Cloudformation" },
-  { type: "danger", value: "EC2" },
-  { type: "success", value: "Customer Service" },
-  { type: "success", value: "Front Desk" },
-  { type: "success", value: "Leadership" },
-  { type: "success", value: "Intercultural Communication" },
-  { type: "success", value: "Training" },
-  { type: "success", value: "Team Work" },
+  {
+    title: "Backend frameworks and general programming languages",
+    description:
+      "I am familiar and comfortable implementing REST APIs with various database types, conforming to conventions of HTTP responses and security via tokens, headers or other methods.",
+    data: [
+      "Node.js",
+      "Express.js",
+      "Python",
+      "Flask",
+      "Django",
+      "C#",
+      "AWS Lambda",
+      ".NET",
+      "Springboot",
+      "Java",
+    ],
+  },
+  {
+    title: "Database management and analytics",
+    description:
+      "One of my focuses in Haaga-Helia was on Business Intelligence using various software. However, I taught myself Python during my thesis where I used it to show research data. Ever since, I have been very interest in exploring data, cleaning it and finding answers through data.",
+    data: [
+      "Data Analytics",
+      "Numpy",
+      "Matplotlib",
+      "Pandas",
+      "PostgreSQL",
+      "MySQL",
+      "Microsoft SQL",
+      "DynamoDB",
+      "MongoDB",
+    ],
+  },
+  {
+    title: "Front end programming and website design",
+    description:
+      "Learning Javascript in school, I have gone down the journey of learning to use modern frameworks. During my time at Integrify, I received a certification for learning to use more modern frameworks in larger codebases.",
+    data: [
+      "React.js",
+      "Angular.js",
+      "Jquery",
+      "Javascript",
+      "Typescript",
+      "HTML",
+      "CSS",
+      "Bootstrap",
+      "Tailwind",
+      "SCSS",
+      "Leaflet.js",
+    ],
+  },
+  {
+    title: "System administration, devops and public cloud",
+    description:
+      "Aside from full stack programming, I have a strong interest in Linux systems and public cloud deployments of services, such as Amazon Web Services. I enjoy combining multiple resource types with AWS CDK in full stack applications.",
+    data: [
+      "Linux",
+      "Git",
+      "Bash",
+      "Cognito",
+      "S3",
+      "AWS CDK",
+      "Api Gateway",
+      "Cloudfront",
+      "Cloudformation",
+      "EC2",
+    ],
+  },
+  {
+    title: "People and culture",
+    description:
+      "Over the years, I have worked in many job types. These positions have taught me about communication, creating expectations for clients and dealing with complex issues.",
+    data: [
+      "Customer Service",
+      "Front Desk",
+      "Leadership",
+      "Intercultural Communication",
+      "Training",
+      "Team Work",
+    ],
+  },
 ];
 
 export const summaries = [
   {
     photo: "4380747.jpg",
-    title: "Website Developer",
+    title: "Software Developer",
     content:
-      "Achieving a certification in " +
-      '<a href="https://www.integrify.io/">Full Stack Web Development</a>,' +
-      " I enjoy creating web applications using modern front end" +
-      "frameworks such as React.js, and back end using Python or " +
+      "I enjoy creating software and web applications using modern " +
+      "frameworks such as React.js, and backend using Python or " +
       "Node.js - powered by the cloud. My style is simple and sleek," +
-      "with a good understanding of CSS and HTML.",
+      "with a good understanding of CSS and HTML. I have a certification in AWS Cloud Practitioner and " +
+      '<a href="https://www.integrify.io/">Full Stack Web Development</a> from Integrify.',
   },
   {
     photo: "6551283.jpg",

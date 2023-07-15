@@ -2,19 +2,9 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 
-import { skills, summaries, skillsPointer, imgStyle } from "../utils/data.js";
+import { skills, summaries, imgStyle } from "../utils/data.js";
 
 const HomePage = () => {
-  const skillSums = ["primary", "info", "warning", "danger"].map((label) => {
-    const sum = skills
-      .filter((skill) => skill.type === label)
-      .reduce((n) => {
-        return n + 1;
-      }, 0);
-
-    return { type: skillsPointer[label], total: sum };
-  });
-
   return (
     <>
       <Row className="mb-2">
@@ -48,13 +38,17 @@ const HomePage = () => {
       </Row>
       <Row className="mb-2">
         <h2>In summary, I have skills in... </h2>
-        {skillSums.map((sum) => (
-          <p key={sum.type}>
-            <strong>{sum.total}</strong> {sum.type}
-          </p>
-        ))}
+        {skills.map(
+          (skill) =>
+            !skill.title.includes("People and culture") && (
+              <p key={skill.title}>
+                <strong>{skill.title}</strong>
+              </p>
+            )
+        )}
         <p>
-          and many other interpersonal, client facing or team building skills!
+          ...and many other interpersonal, client facing or team building
+          skills!
         </p>
       </Row>
     </>
