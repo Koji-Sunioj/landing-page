@@ -5,12 +5,12 @@ import Accordion from "react-bootstrap/Accordion";
 
 import { skills, experiences, education } from "../utils/data.js";
 
-const Resume = ({ mode }) => (
+const Resume = () => (
   <>
     <Row className="mb-2">
       <Col lg={6}>
         <h2>Skills and interests</h2>
-        <Card bg={mode}>
+        <Card>
           <Card.Body>
             <Accordion>
               {skills.map((skill, index) => {
@@ -36,7 +36,7 @@ const Resume = ({ mode }) => (
       </Col>
       <Col lg={6}>
         <h2>Education and certifications</h2>
-        <Card bg={mode}>
+        <Card>
           {education.map((item) => {
             const { place, description, date } = item;
             return (
@@ -53,7 +53,7 @@ const Resume = ({ mode }) => (
     <Row className="mb-2">
       <h2 className="mb-3">Work History</h2>
       <Col>
-        <Card bg={mode}>
+        <Card>
           <Card.Body>
             <ul className="timeline">
               {experiences.map((item, n) => {

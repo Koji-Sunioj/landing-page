@@ -31,7 +31,7 @@ export const portfolio = [
       "I am currently refactoring it to use Typescript and Redux, then minifying the Lambda function code.",
   },
 
-  {
+  /* {
     url: "https://darling-syrniki-58d723.netlify.app/",
     github: "https://github.com/Koji-Sunioj/fs14-frontend-public",
     image: "records.png",
@@ -41,7 +41,7 @@ export const portfolio = [
       "It's main purpose to implement e-commerce functionalities, " +
       "such as logging in via Google single sign on, adding items to card and filtering through items. " +
       "Eventually, it will be supplement with a backend server.",
-  },
+  }, */
 ];
 
 export const education = [
@@ -310,3 +310,16 @@ export const summaries = [
       "- my mindsight is client focused in any role, providing great user satisfaction.",
   },
 ];
+
+export const cssPointers = {
+  dark: {
+    "--font-color": "white",
+    "--card-bg": "#212529",
+    "--bg-color": "black",
+  },
+  light: {
+    "--font-color": "black",
+    "--card-bg": "#F8F9FA",
+    "--bg-color": "white",
+  },
+};

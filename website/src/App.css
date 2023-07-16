@@ -25,26 +25,43 @@
   content: "";
 }
 
-:root {
+:root 
+{
   --font-color: black;
   --bg-color: white;
+  --card-bg: #F8F9FA;
 }
 
-body {
+body 
+{
   overflow-y: scroll; 
- 
 }
 
 h1,h2,li,button.accordion-button,div.card-title,
-div.card-subtitle.h6,h3   {
+div.card-subtitle.h6,h3,p   
+{ 
   color: var(--font-color);
 }
 
-p{
-  color: var(--font-color);
+
+
+nav.navbar,div.card
+{
+  background-color: var(--card-bg);
 }
 
 div.accordion
 {
   --bs-accordion-bg: var(--bg-color);
 }
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+h1,h2,li,button.accordion-button,div.card-title,
+div.card-subtitle.h6,h3,p,img,div.card,div.accordion {
+  animation: fadeIn 0.5s;  
+}
+

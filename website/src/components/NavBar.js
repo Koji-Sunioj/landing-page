@@ -2,29 +2,24 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { Container, Nav } from "react-bootstrap";
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { changeMode } from "../app/reducers/lightSlice";
+import { cssPointers } from "../utils/data";
 
-const NavBar = ({ mode, data }) => {
-  const dispatch = useDispatch();
-
+const NavBar = ({ data }) => {
+  const [mode, setMode] = useState("light");
   const updateMode = () => {
     const newMode = mode === "light" ? "dark" : "light";
-    const bodyBg = mode === "light" ? "black" : "white";
-    dispatch(changeMode(newMode));
-    document.body.style.backgroundColor = bodyBg;
-    if (mode === "light") {
-      document.documentElement.style.setProperty("--font-color", "white");
-      document.documentElement.style.setProperty("--bg-color", "black");
-    } else {
-      document.documentElement.style.setProperty("--font-color", "black");
-      document.documentElement.style.setProperty("--bg-color", "white");
-    }
+    Object.entries(cssPointers[newMode]).forEach((entry) => {
+      const [key, value] = entry;
+      document.documentElement.style.setProperty(key, value);
+    });
+    document.body.style.backgroundColor = mode === "light" ? "black" : "white";
+    setMode(newMode);
   };
 
   return (
-    <Navbar bg={mode} expand="lg" variant={mode} className="mb-3" sticky="top">
+    <Navbar expand="lg" className="mb-3" sticky="top" variant={mode}>
       <Container>
         <Navbar.Brand as={Link} to="/">
           Home

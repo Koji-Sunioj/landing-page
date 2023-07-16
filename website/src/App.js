@@ -19,7 +19,6 @@ function App() {
   const dispatch = useDispatch();
   const {
     metrics: { data, loading, error },
-    background: { mode },
   } = useSelector((state) => state);
 
   useEffect(() => {
@@ -30,13 +29,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar mode={mode} data={data} />
+      <NavBar data={data} />
       <Container>
         <Routes>
-          <Route path="/" element={<HomePage mode={mode} />}></Route>
+          <Route path="/" element={<HomePage />}></Route>
           <Route path="/metrics" element={<Metrics />}></Route>
-          <Route path="/resume" element={<Resume mode={mode} />}></Route>
-          <Route path="/portfolio" element={<Portfolio mode={mode} />}></Route>
+          <Route path="/resume" element={<Resume />}></Route>
+          <Route path="/portfolio" element={<Portfolio />}></Route>
           <Route path="/about" element={<About />}></Route>
         </Routes>
       </Container>
