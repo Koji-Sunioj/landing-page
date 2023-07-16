@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 
 import { skills, summaries, imgStyle } from "../utils/data.js";
 
-const HomePage = () => {
+const HomePage = ({ mode }) => {
   return (
     <>
       <Row className="mb-2">
@@ -23,7 +23,7 @@ const HomePage = () => {
           const { photo, title, content } = summary;
           return (
             <Col lg={4} className="mb-3" key={title}>
-              <Card>
+              <Card bg={mode}>
                 <Card.Img variant="top" src={photo} style={imgStyle} />
                 <Card.Body>
                   <Card.Title>{title}</Card.Title>

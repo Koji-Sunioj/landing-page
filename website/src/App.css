@@ -25,7 +25,26 @@
   content: "";
 }
 
+:root {
+  --font-color: black;
+  --bg-color: white;
+}
+
 body {
   overflow-y: scroll; 
  
+}
+
+h1,h2,li,button.accordion-button,div.card-title,
+div.card-subtitle.h6,h3   {
+  color: var(--font-color);
+}
+
+p{
+  color: var(--font-color);
+}
+
+div.accordion
+{
+  --bs-accordion-bg: var(--bg-color);
 }

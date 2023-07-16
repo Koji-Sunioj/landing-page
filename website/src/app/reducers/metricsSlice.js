@@ -8,7 +8,6 @@ export const fetchMetrics = createAsyncThunk("fetch-metrics", async () => {
     endPoint.includes("Metrics")
   );
   const url = `${apis[metricsApi]}metrics`;
-  console.log("hitting: ", url);
   return await fetch(url).then((response) => response.json());
 });
 

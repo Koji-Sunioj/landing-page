@@ -6,7 +6,7 @@ import Card from "react-bootstrap/Card";
 
 import { Link } from "react-router-dom";
 
-const Portfolio = () => {
+const Portfolio = ({ mode }) => {
   return (
     <>
       <Row className="mb-2">
@@ -15,7 +15,7 @@ const Portfolio = () => {
           const { url, github, title, image, description } = item;
           return (
             <Col lg={6} className="mb-3" key={title}>
-              <Card>
+              <Card bg={mode}>
                 <Card.Body>
                   <Link to={url}>
                     <Card.Img src={image} className="mb-2" />
