@@ -1,5 +1,6 @@
 import os
 import boto3
+import json
 import numpy as np
 import time
 from datetime import datetime
@@ -10,6 +11,7 @@ ddb = boto3.resource('dynamodb')
 
 
 def handler(event, context):
+    print(event)
     key = event["Records"][0]["s3"]["object"]["key"]
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     principal = event["Records"][0]["userIdentity"]["principalId"]
@@ -18,7 +20,7 @@ def handler(event, context):
     if "csv" in key and "metadata" not in key:
         # initialize tables
         query_table = ddb.Table(os.environ['QUERY_TABLE'])
-        aggregate_table = ddb.Table(os.environ['COUNTRY_TABLE'])
+        country_table = ddb.Table(os.environ['COUNTRY_TABLE'])
 
         # grab the locations from the json file
         locations = pd.read_json(
@@ -45,14 +47,31 @@ def handler(event, context):
         with_countries = pd.merge(without_bot, locations, on="location", how="left").drop(
             columns=["user_agent", "location"])
         countries = with_countries.groupby("country").aggregate(
-            {"load": "sum"})  # .reset_index().to_dict("records")
+            {"load": "sum"})
 
         to_put = {"visits": visits, "countries": countries.reset_index().to_dict("records"), "server_load": without_bot.load.sum().item(),
                   "query_date": int(query_date[0]), "query_id": context.aws_request_id}
+
+        metrics = query_table.scan(
+            ProjectionExpression="query_id,query_date,server_load")
+
+        to_put_copy = to_put.copy()
+        del to_put_copy["visits"]
+        del to_put_copy["countries"]
+        metrics["Items"].append(to_put_copy)
+
+        monthly = pd.DataFrame(metrics["Items"]).drop(
+            columns=["query_id"]).astype(int).set_index("query_date")
+        monthly.index = pd.to_datetime(monthly.index, unit="s")
+        monthly_average = monthly.resample(
+            "m").aggregate({"server_load": "sum"})
+        monthly_average.index = monthly_average.index.astype(str)
+        monthly_average = monthly_average.reset_index().to_dict(orient="records")
+
         query_table.put_item(Item=to_put)
 
         # aggregate old values with new
-        country_aggregate = aggregate_table.get_item(
+        country_aggregate = country_table.get_item(
             Key={"aggregate": "countries"})
         old_countries = pd.DataFrame.from_dict(
             country_aggregate["Item"]["countries"], orient="index", columns=["load"])
@@ -60,8 +79,14 @@ def handler(event, context):
         old_countries.index.name = "country"
         new_frame = pd.concat([old_countries, countries])
         final_countries = new_frame.groupby(
-            new_frame.index).aggregate({"load": "sum"})
+            new_frame.index).aggregate({"load": "sum"}).to_dict()["load"]
         added_countries = {"aggregate": "countries",
-                           "countries": final_countries.to_dict()["load"]}
+                           "countries": final_countries}
 
-        aggregate_table.put_item(Item=added_countries)
+        metrics_dict = {"countries": final_countries,
+                        "monthly": monthly_average}
+        json_dict = json.dumps(metrics_dict)
+        s3.put_object(Bucket=bucket, Body=json_dict,
+                      Key="app_data/metrics.json", ACL="public-read")
+
+        country_table.put_item(Item=added_countries)

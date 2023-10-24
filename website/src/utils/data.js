@@ -71,6 +71,16 @@ export const education = [
 
 export const experiences = [
   {
+    location: "Tampere, Finland",
+    date: "2023",
+    name: "Opentext",
+    title: "Associate Consultant",
+    description:
+      "Creating and configuring EDI connections for clients. " +
+      "Communicating with stakeholders and departments for follow ups, reporting. " +
+      "Using Agile (Kanban) development practices to streamline tasks.",
+  },
+  {
     location: "Helsinki, Finland",
     date: "2022-2023",
     name: "Nordcloud",
