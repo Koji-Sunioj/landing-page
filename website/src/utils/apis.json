@@ -1,5 +1,6 @@
 {
   "IronpondStack": {
+    "MetricDomain": "ironpondstack-logbucketcc3b17e8-1t5bduk77ymwx.s3.amazonaws.com",
     "MetricsApiEndpoint441D00C3": "https://p7smosnxyd.execute-api.us-east-1.amazonaws.com/prod/"
   }
 }

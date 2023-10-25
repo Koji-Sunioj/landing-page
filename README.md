@@ -7,9 +7,14 @@ mkdir -p layer/python/lib/python3.8/site-packages/
 pip install --target=layer/python/lib/python3.8/site-packages/ pandas
 ```
 
-backend now includes the ability to create metrics on website load throughout the day and count of countries (through AWS edge locations) athena query is saved in s3. i have not found a reliable way to bootstrap the athena database with glue reliably through the CDK, so for now it is done through console.
+backend now includes the ability to create metrics on website vists throughout the day and count of countries; the edge point which is relaying the website to the client records various properties, including the data center serving it. 
 
-cloudfront logs are now expiring after 3 days.
+the steps for recording data without a rest api is the following:
+
+1. lambda function runs a stored athena query once a day, for the previous days visits. this creates a csv file in s3.
+2. an event is triggered on putting the csv file, which triggers another function to aggregate the previous days visits. it merges data from dynamodb on the same cumulative data and creates a readable json file for the website metrics page. 
+
+i have not found a reliable way to bootstrap the athena database with glue reliably through the CDK, so for now it is done through console. cloudfront logs are now expiring after 3 days.
 
 # Welcome to your CDK TypeScript project
 

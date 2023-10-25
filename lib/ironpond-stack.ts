@@ -1,5 +1,4 @@
 import { WebSite } from "./website";
-import { MetricsApi } from "./metrics-api";
 import { Construct } from "constructs";
 
 import * as cdk from "aws-cdk-lib";
@@ -39,17 +38,18 @@ export class IronpondStack extends cdk.Stack {
           prefix: ".gz",
         },
       ],
+      cors: [
+        {
+          allowedMethods: [s3.HttpMethods.PUT, s3.HttpMethods.GET],
+          allowedOrigins: ["ironpond.net"],
+          allowedHeaders: ["*"],
+        },
+      ],
     });
 
     //instantiate the website class with the logging bucket
-    const website = new WebSite(this, "IronPond", {
+    new WebSite(this, "IronPond", {
       logBucket: logBucket,
-    });
-
-    new MetricsApi(this, "MetricsApi", {
-      aggregateTable: aggregateTable,
-      metricsTable: table,
-      certificate: website.certificate,
     });
 
     //a lambda layer build from a physical folder to clean the data queried by athena
@@ -118,5 +118,9 @@ export class IronpondStack extends cdk.Stack {
     table.grantReadWriteData(athenaTrigger);
     logBucket.grantPutAcl(athenaTrigger);
     aggregateTable.grantReadWriteData(athenaTrigger);
+
+    new cdk.CfnOutput(this, "MetricDomain", {
+      value: logBucket.bucketDomainName,
+    });
   }
 }

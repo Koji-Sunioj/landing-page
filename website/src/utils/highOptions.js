@@ -49,35 +49,26 @@ export const highMapsOptions = (countries) => {
 };
 
 export const highChartsOptions = (metrics) => {
-  const sorted = [...metrics].sort((a, b) => a.query_date - b.query_date);
-
-  const load = sorted.map((arr) => {
+  const load = metrics.map((arr) => {
     const mb = arr.server_load / 1000000;
     return Number(mb.toFixed(2));
   });
 
-  const times = sorted
-    .map((arr) => arr.query_date)
-    .map((time) =>
-      new Date(time * 1000)
-        .toISOString()
-        .replace(/[a-zA-Z]/g, " ")
-        .slice(0, 10)
-    );
+  const dates = metrics.map((dict) => dict.query_date.substring(0, 7));
 
   const chartOptions = {
     chart: {
-      type: "spline",
+      type: "column",
     },
     title: {
-      text: "Website requests in megabytes of over time",
+      text: "Website requests in megabytes",
     },
     subtitle: {
-      text: "measured by sum of megabytes grouped by date, to all websites URIs",
+      text: "measured by sum of megabytes grouped by month, to all websites URIs",
     },
     xAxis: [
       {
-        categories: times,
+        categories: dates,
       },
     ],
     series: [
