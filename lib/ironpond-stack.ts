@@ -53,8 +53,22 @@ export class IronpondStack extends cdk.Stack {
     });
 
     //a lambda layer build from a physical folder to clean the data queried by athena
+    //const pandasLayer = new lambda.LayerVersion(this, "PandasLayer", {
+    // code: lambda.Code.fromAsset("layer"),
+    //  compatibleRuntimes: [lambda.Runtime.PYTHON_3_8],
+    //});
+
+    const layersBucket = s3.Bucket.fromBucketName(
+      this,
+      "LayersBucket",
+      "us-east-1-python-layers"
+    );
+
     const pandasLayer = new lambda.LayerVersion(this, "PandasLayer", {
-      code: lambda.Code.fromAsset("layer"),
+      code: lambda.Code.fromBucket(
+        layersBucket,
+        "pandas_python3.8.zip"
+      ),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_8],
     });
 
