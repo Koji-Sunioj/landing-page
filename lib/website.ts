@@ -1,14 +1,10 @@
 import { Construct } from "constructs";
-
-import * as path from "path";
 import * as cdk from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as aws_route53 from "aws-cdk-lib/aws-route53";
 import * as cm from "aws-cdk-lib/aws-certificatemanager";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
-import * as deployment from "aws-cdk-lib/aws-s3-deployment";
 import * as origin from "aws-cdk-lib/aws-cloudfront-origins";
 
 export interface WebsiteProps {
@@ -78,19 +74,6 @@ export class WebSite extends Construct {
       target: aws_route53.RecordTarget.fromAlias(
         new targets.CloudFrontTarget(distribution)
       ),
-    });
-
-    //.7 parse the build with bucket
-    new deployment.BucketDeployment(this, "LandingDeployment", {
-      sources: [
-        deployment.Source.asset(path.resolve(__dirname, "../website/build")),
-      ],
-      cacheControl: [
-        deployment.CacheControl.fromString("max-age=3000,public,immutable"),
-      ],
-      destinationBucket: appBucket,
-      distribution,
-      distributionPaths: ["/*"],
     });
   }
 }
